@@ -9,6 +9,8 @@ let notification = null
 let apiKey = null
 
 function accessClipboard () {
+  // Allow selection is only available on Linux,
+  // this API fallback to clipboard on Windows automatically.
   return clipboard.readText('selection')
 }
 
