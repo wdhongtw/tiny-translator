@@ -5,10 +5,14 @@ const { Notification } = require('electron')
 
 const axios = require('axios')
 
+const setting = require('./setting')
+
 let notification = null
 let apiKey = null
 
 function accessClipboard () {
+  // Allow selection is only available on Linux,
+  // this API fallback to clipboard on Windows automatically.
   return clipboard.readText('selection')
 }
 
@@ -32,13 +36,17 @@ async function launchTranslationJob () {
   showText(translatedText)
 }
 
-async function main () {
+async function run () {
   notification = new Notification({
     title: 'Translation'
   })
-  apiKey = process.env.API_KEY
+  apiKey = process.env.API_KEY || await setting.getApiKey()
 
   globalShortcut.register('Alt+T', launchTranslationJob)
+}
+
+async function main () {
+  await run()
 }
 
 app.whenReady().then(main)
