@@ -5,6 +5,8 @@ const { Notification } = require('electron')
 
 const axios = require('axios')
 
+const setting = require('./setting')
+
 let notification = null
 let apiKey = null
 
@@ -34,13 +36,17 @@ async function launchTranslationJob () {
   showText(translatedText)
 }
 
-async function main () {
+async function run () {
   notification = new Notification({
     title: 'Translation'
   })
-  apiKey = process.env.API_KEY
+  apiKey = process.env.API_KEY || await setting.getApiKey()
 
   globalShortcut.register('Alt+T', launchTranslationJob)
+}
+
+async function main () {
+  await run()
 }
 
 app.whenReady().then(main)

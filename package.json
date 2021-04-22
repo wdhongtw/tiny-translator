@@ -15,6 +15,8 @@
     "standard": "^16.0.3"
   },
   "dependencies": {
-    "axios": "^0.21.1"
+    "argparse": "^2.0.1",
+    "axios": "^0.21.1",
+    "keytar": "^7.6.0"
   }
 }
